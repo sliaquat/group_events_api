@@ -4,7 +4,7 @@ class GroupEvent < ActiveRecord::Base
 
   validates_inclusion_of :status, in: :status_types, message: 'Invalid status type'
 
-  validate :start_end_date_after_start_date, if: 'start_date && end_date'
+  validate :end_date_is_after_start_date, if: 'start_date && end_date'
 
   before_save :calculate_duration, if: 'duration.nil? && start_date.present? && end_date.present?'
   before_save :calculate_end_date, if: 'duration.present? && start_date.present? && end_date.nil?'
@@ -18,7 +18,7 @@ class GroupEvent < ActiveRecord::Base
   end
 
 
-  def start_end_date_after_start_date
+  def end_date_is_after_start_date
     if start_date > end_date
       errors.add(:end_date, 'must be after start_date')
     end
