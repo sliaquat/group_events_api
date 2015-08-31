@@ -6,11 +6,17 @@ class GroupEvent < ActiveRecord::Base
 
   validate :start_end_date_after_start_date, if: 'start_date && end_date'
 
-  before_save :calculate_duration, if: 'duration.nil? && start_date && end_date'
+  before_save :calculate_duration, if: 'duration.nil? && start_date.present? && end_date.present?'
+  before_save :calculate_end_date, if: 'duration.present? && start_date.present? && end_date.nil?'
+  before_save :calculate_start_date, if: 'duration.present? && start_date.nil? && end_date.present?'
 
   def calculate_duration
     self.duration = TimeDifference.between(start_date, end_date).in_days
   end
+
+  def calculate_end_date
+  end
+
 
   def start_end_date_after_start_date
     if start_date > end_date
