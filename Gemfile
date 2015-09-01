@@ -33,7 +33,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+
+  gem 'pry-rescue'
+
+  gem 'pry-stack_explorer'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -46,7 +49,13 @@ group :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem 'ffaker'
-  gem 'chronic'
+  # gem 'shoulda-matchers', '2.8.0', require: false
+  # gem 'shoulda-matchers', require: false
+  # gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', require: false
+  gem 'shoulda-matchers', '3.0.0.rc1', require: false
+  gem 'shoulda-callback-matchers', '~> 1.1.1'
+
+
 end
 
 
