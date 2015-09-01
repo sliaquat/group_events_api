@@ -2,7 +2,7 @@ class CreateGroupEvents < ActiveRecord::Migration
   def change
     create_table :group_events do |t|
       t.string :name
-      t.string :description
+      t.text :description
       t.string :location
       t.string :status, default: "draft"
       t.date :start_date

@@ -49,19 +49,13 @@ group :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem 'ffaker'
-  # gem 'shoulda-matchers', '2.8.0', require: false
-  # gem 'shoulda-matchers', require: false
-  # gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', require: false
   gem 'shoulda-matchers', '3.0.0.rc1', require: false
-  gem 'shoulda-callback-matchers', '~> 1.1.1'
-
-
 end
 
+gem 'responders', '~> 2.0'
 
 #Api gems
 gem 'active_model_serializers'
 
 
 gem 'time_difference'
-gem 'byebug'

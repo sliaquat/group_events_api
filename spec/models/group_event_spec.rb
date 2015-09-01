@@ -8,15 +8,19 @@ RSpec.describe GroupEvent, type: :model do
     let(:complete_group_event) { FactoryGirl.build(:complete_group_event) }
     let(:incomplete_group_event) { FactoryGirl.build(:incomplete_group_event) }
     let(:group_event_with_start_date_after_end_date) { FactoryGirl.build(:group_event_with_start_date_after_end_date) }
+    let(:group_event_with_same_start_and_end_date) { FactoryGirl.build(:group_event_with_same_start_and_end_date) }
     let(:complete_published_group_event) { FactoryGirl.build(:complete_published_group_event) }
     let(:incomplete_published_group_event) { FactoryGirl.build(:incomplete_published_group_event) }
 
     it { expect(group_event).to_not allow_value("abc").for(:status) }
     it { expect(group_event).to allow_values("published", "draft").for(:status) }
     it { expect(group_event).to allow_value("<p>Some Text </p>").for(:description) }
+    it { expect(group_event).to_not allow_values(-1, "abc").for(:duration) }
+    it { expect(group_event).to allow_values(0, 1).for(:duration) }
     it { expect(incomplete_published_group_event).to be_invalid }
     it { expect(complete_published_group_event).to be_valid }
     it { expect(group_event_with_start_date_after_end_date).to be_invalid }
+    it { expect(group_event_with_same_start_and_end_date).to be_valid }
   end
 
 
@@ -46,5 +50,10 @@ RSpec.describe GroupEvent, type: :model do
     group_event.destroy()
     expect(GroupEvent.unscoped.exists?(group_event.id)).to be true
   end
+
+
+
+
+
 
 end

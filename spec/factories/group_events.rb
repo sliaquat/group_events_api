@@ -11,6 +11,11 @@ FactoryGirl.define do
       end_date Time.current
     end
 
+    factory :group_event_with_same_start_and_end_date do
+      start_date Time.current
+      end_date Time.current
+    end
+
     factory :incomplete_published_group_event do
       status 'published'
     end

@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20150831120657) do
 
   create_table "group_events", force: :cascade do |t|
     t.string   "name"
-    t.string   "description"
+    t.text     "description"
     t.string   "location"
     t.string   "status",      default: "draft"
     t.date     "start_date"
