@@ -2,6 +2,14 @@
 
 Group Events is an app that lets you manage Group Events that run for whole days using an API.
  
+#### Local setup
+ - Unzip the file and run `bundle install` inside the unzipped location. 
+ - Add an entry to your `/etc/hosts` file to point to you local host such as `api.groupevents-dev.com`
+ - Run `rails s` inside the unzipped location
+ 
+#### Running Tests
+Run `rspec spec` inside your unzipped location
+
 #### API End Points
  + `GET: /group_events` Lists all group events
  + `GET: /group_events/id` Show a group event with the given id
