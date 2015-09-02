@@ -4,7 +4,7 @@ class GroupEvent < ActiveRecord::Base
 
   validates_numericality_of :duration, greater_than_or_equal_to: 0, if: Proc.new { |e| e.duration }, message: "Invalid value"
 
-  validates_presence_of :name, :description, :location, :start_date, :end_date, :duration, if: "published?"
+  validates_presence_of :name, :description, :location, :start_date, :end_date, :duration, if: "published?", message: "Cannot be blank for a published event"
 
   validates_inclusion_of :status, in: :status_types, message: 'Invalid type'
 

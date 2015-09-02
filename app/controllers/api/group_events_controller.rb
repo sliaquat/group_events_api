@@ -3,6 +3,10 @@ class Api::GroupEventsController < ApplicationController
   skip_before_action :verify_authenticity_token
   respond_to :json
 
+  def index
+    respond_with GroupEvent.all
+  end
+
   def show
     respond_with GroupEvent.find(params[:id])
   end

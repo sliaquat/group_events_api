@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     # scope module: :v1 do
     #   # We are going to list our resources here
     # end
-    resources :group_events, only: [:show, :create, :update, :destroy]
+    resources :group_events, only: [:index, :show, :create, :update, :destroy]
 
   end
   # The priority is based upon order of creation: first created -> highest priority.

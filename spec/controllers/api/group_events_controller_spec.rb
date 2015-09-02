@@ -1,17 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Api::GroupEventsController, type: :controller do
-  let(:group_event) { FactoryGirl.create(:group_event) }
 
+  describe "GET #index" do
+
+    before(:each) do
+      3.times{FactoryGirl.create(:group_event)}
+      get :index, format: :json
+    end
+
+    it "renders the json representation for all group events" do
+      event_response = JSON.parse(response.body, symbolize_names: true)
+      expect(event_response[:group_events].count).to be 3
+    end
+
+    it { should respond_with 200 }
+  end
 
   describe "GET #show" do
     before(:each) do
-      get :show, id: group_event.id, format: :json
+      @group_event = FactoryGirl.create(:group_event)
+      get :show, id: @group_event.id, format: :json
     end
 
-    it "returns the information about a reporter on a hash" do
+    it "renders the json representation for the group event requested" do
       event_response = JSON.parse(response.body, symbolize_names: true)
-      expect(event_response[:name]).to eql group_event.name
+      expect(event_response[:name]).to eql @group_event.name
     end
 
     it { should respond_with 200 }
@@ -22,14 +36,14 @@ RSpec.describe Api::GroupEventsController, type: :controller do
 
     context "when is successfully created" do
 
-      let(:group_event_attributes) { FactoryGirl.attributes_for(:complete_group_event) }
       before(:each) do
-        post :create, { group_event: group_event_attributes }, format: :json
+      @group_event_attributes = FactoryGirl.attributes_for(:complete_group_event)
+        post :create, { group_event: @group_event_attributes }, format: :json
       end
 
       it "renders the json representation for the group event just created" do
         event_response = JSON.parse(response.body, symbolize_names: true)
-        expect(event_response[:name]).to eql group_event_attributes[:name]
+        expect(event_response[:name]).to eql @group_event_attributes[:name]
       end
 
       it { should respond_with 201 }
@@ -42,11 +56,6 @@ RSpec.describe Api::GroupEventsController, type: :controller do
     before(:each) do
       @invalid_attributes = { start_date: (Time.current + 1.day).to_s, end_date: (Time.current).to_s }
       post :create, { group_event: @invalid_attributes }, format: :json
-    end
-
-    it "renders an errors json" do
-      event_response = JSON.parse(response.body, symbolize_names: true)
-      expect(event_response).to have_key(:errors)
     end
 
     it "renders the json errors on why the group event could not be created" do
@@ -82,11 +91,6 @@ RSpec.describe Api::GroupEventsController, type: :controller do
                          group_event: { status: "abc" } }, format: :json
       end
 
-      it "renders an errors json" do
-        event_response = JSON.parse(response.body, symbolize_names: true)
-        expect(event_response).to have_key(:errors)
-      end
-
       it "renders the json errors on why the group event could not be updated" do
         event_response = JSON.parse(response.body, symbolize_names: true)
         expect(event_response[:errors][:status]).to include "Invalid type"
@@ -98,7 +102,7 @@ RSpec.describe Api::GroupEventsController, type: :controller do
 
 
   describe "DELETE #destroy" do
-    before(:each) do
+    before do
       @group_event = FactoryGirl.create :complete_group_event
       delete :destroy, { id: @group_event.id }, format: :json
     end
