@@ -10,7 +10,8 @@ RSpec.describe Api::GroupEventsController, type: :controller do
     end
 
     it "renders the json representation for all group events" do
-      event_response = JSON.parse(response.body, symbolize_names: true)
+      # event_response = JSON.parse(response.body, symbolize_names: true)
+      event_response = json_response
       expect(event_response[:group_events].count).to be 3
     end
 
