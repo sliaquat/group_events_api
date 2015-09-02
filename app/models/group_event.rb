@@ -6,7 +6,7 @@ class GroupEvent < ActiveRecord::Base
 
   validates_presence_of :name, :description, :location, :start_date, :end_date, :duration, if: "published?", message: "Cannot be blank for a published event"
 
-  validates_inclusion_of :status, in: :status_types, message: 'Invalid type'
+  validates_inclusion_of :status, in: :status_types, message: 'Invalid type. Status can be either draft or published'
 
   validate :end_date_is_after_start_date, if: Proc.new { |e| e.start_date && e.end_date }
 

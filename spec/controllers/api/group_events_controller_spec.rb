@@ -49,19 +49,19 @@ RSpec.describe Api::GroupEventsController, type: :controller do
 
     end
 
-  end
+    context "when is not created" do
+      before(:each) do
+        @invalid_attributes = { start_date: (Time.current + 1.day).to_s, end_date: (Time.current).to_s }
+        post :create, { group_event: @invalid_attributes }
+      end
 
-  context "when is not created" do
-    before(:each) do
-      @invalid_attributes = { start_date: (Time.current + 1.day).to_s, end_date: (Time.current).to_s }
-      post :create, { group_event: @invalid_attributes }
+      it "renders the json errors on why the group event could not be created" do
+        expect(json_response[:errors][:end_date]).to include "must be after start_date"
+      end
+
+      it { should respond_with 422 }
     end
 
-    it "renders the json errors on why the group event could not be created" do
-      expect(json_response[:errors][:end_date]).to include "must be after start_date"
-    end
-
-    it { should respond_with 422 }
   end
 
   describe "PUT #update" do
@@ -89,13 +89,12 @@ RSpec.describe Api::GroupEventsController, type: :controller do
       end
 
       it "renders the json errors on why the group event could not be updated" do
-        expect(json_response[:errors][:status]).to include "Invalid type"
+        expect(json_response[:errors][:status]).to include "Invalid type. Status can be either draft or published"
       end
 
       it { should respond_with 422 }
     end
   end
-
 
   describe "DELETE #destroy" do
     before do
