@@ -12,7 +12,7 @@ RSpec.describe Api::GroupEventsController, type: :controller do
     end
 
     it "renders the json representation for all group events" do
-      expect(json_response[:group_events].count).to be 3
+      expect(json_response.count).to eql 3
     end
 
     it { should respond_with 200 }
