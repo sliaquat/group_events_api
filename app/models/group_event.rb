@@ -1,12 +1,13 @@
 class GroupEvent < ActiveRecord::Base
 
+  STATUS_TYPES = ["draft", "published"]
   default_scope {where(deleted: false)}
 
   validates_numericality_of :duration, greater_than_or_equal_to: 0, if: Proc.new { |e| e.duration }, message: "Invalid value"
 
   validates_presence_of :name, :description, :location, :start_date, :end_date, :duration, if: "published?", message: "Cannot be blank for a published event"
 
-  validates_inclusion_of :status, in: :status_types, message: 'Invalid type. Status can be either draft or published'
+  validates_inclusion_of :status, in: STATUS_TYPES, message: 'Invalid type. Status can be either ' + STATUS_TYPES.join(" or ")
 
   validate :end_date_is_after_start_date, if: Proc.new { |e| e.start_date && e.end_date }
 
@@ -30,18 +31,13 @@ class GroupEvent < ActiveRecord::Base
 
 
   def end_date_is_after_start_date
-    if start_date > end_date
-      errors.add(:end_date, 'must be after start_date')
-    end
+    errors.add(:end_date, 'must be after start_date') if start_date > end_date
   end
 
   def published?
     self.status == 'published'
   end
 
-  def status_types
-    ["draft", "published"]
-  end
 
   def destroy
     self.update_attribute :deleted, true

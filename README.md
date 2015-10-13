@@ -1,6 +1,6 @@
 # README
 
-Group Events is an app that lets you manage Group Events that run for whole days using an API.
+Group Events is a Rails app that lets you manage Group Events that run for whole days using an API.
  
 #### Local setup
  - Unzip the file and run `bundle install` inside the unzipped location. 
